@@ -1,0 +1,6 @@
+@CabeleleilaLeila.API_HostAddress = http://localhost:5233
+
+GET {{CabeleleilaLeila.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

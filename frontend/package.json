@@ -1,5 +1,5 @@
 {
-  "name": "frontend",
+  "name": "Cabeleila-leila",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -8,11 +8,16 @@
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
-  "devDependencies": {
-    "typescript": "~6.0.2",
-    "vite": "^8.0.12"
-  },
   "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-router-dom": "^7.17.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.1",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.1",
+    "typescript": "~5.8.3",
+    "vite": "^7.0.0"
   }
 }

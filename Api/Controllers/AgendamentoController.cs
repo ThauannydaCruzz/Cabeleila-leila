@@ -1,6 +1,5 @@
 using Data.Context;
 using Domain.Entities;
-using Domain.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -29,24 +28,11 @@ public class AgendamentoController : ControllerBase
     public async Task<IActionResult> Criar(Agendamento agendamento)
     {
         agendamento.Id = Guid.NewGuid();
+
         _context.Agendamentos.Add(agendamento);
-        await _context.SaveChangesAsync();
-        return Ok(agendamento);
-    }
-
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Alterar(Guid id, Agendamento dados)
-    {
-        var agendamento = await _context.Agendamentos.FindAsync(id);
-
-        if (agendamento == null)
-            return NotFound();
-
-        agendamento.DataHora = dados.DataHora;
-        agendamento.Status = dados.Status;
-        agendamento.Observacao = dados.Observacao;
 
         await _context.SaveChangesAsync();
+
         return Ok(agendamento);
     }
 
@@ -59,7 +45,9 @@ public class AgendamentoController : ControllerBase
             return NotFound();
 
         _context.Agendamentos.Remove(agendamento);
+
         await _context.SaveChangesAsync();
+
         return NoContent();
     }
 }
