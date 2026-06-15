@@ -11,4 +11,6 @@ public class Servico
     public decimal Preco { get; set; }
 
     public int DuracaoMinutos { get; set; }
+
+    public Guid? AgendamentoId { get; set; }
 }

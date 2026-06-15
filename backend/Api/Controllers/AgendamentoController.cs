@@ -1,6 +1,5 @@
 using Data.Context;
 using Domain.Entities;
-using Domain.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -22,13 +21,26 @@ public class AgendamentoController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> Listar()
     {
-        return Ok(await _context.Agendamentos.ToListAsync());
+        return Ok(await _context.Agendamentos.Include(a => a.Servicos).ToListAsync());
+    }
+
+    [HttpGet("cliente/{clienteId}")]
+    public async Task<IActionResult> ListarPorCliente(Guid clienteId)
+    {
+        return Ok(await _context.Agendamentos
+            .Include(a => a.Servicos)
+            .Where(a => a.ClienteId == clienteId)
+            .ToListAsync());
     }
 
     [HttpPost]
     public async Task<IActionResult> Criar(Agendamento agendamento)
     {
         agendamento.Id = Guid.NewGuid();
+        foreach (var s in agendamento.Servicos)
+        {
+            s.Id = Guid.NewGuid();
+        }
         _context.Agendamentos.Add(agendamento);
         await _context.SaveChangesAsync();
         return Ok(agendamento);

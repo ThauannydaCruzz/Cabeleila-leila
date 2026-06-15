@@ -1,13 +1,22 @@
-const historico = [
-  { id: 1, cliente: 'Ana Souza', servico: 'Corte + Escova', data: '10/06/2026', valor: 'R$ 120,00' },
-  { id: 2, cliente: 'Marina Lopes', servico: 'Coloração', data: '08/06/2026', valor: 'R$ 250,00' },
-  { id: 3, cliente: 'Júlia Reis', servico: 'Manicure', data: '05/06/2026', valor: 'R$ 60,00' },
-  { id: 4, cliente: 'Carla Mendes', servico: 'Hidratação', data: '01/06/2026', valor: 'R$ 90,00' },
-  { id: 5, cliente: 'Fernanda Costa', servico: 'Corte', data: '28/05/2026', valor: 'R$ 80,00' },
-  { id: 6, cliente: 'Patrícia Lima', servico: 'Escova', data: '25/05/2026', valor: 'R$ 70,00' },
-]
+import { useEffect, useState } from 'react'
+import { api } from '../services/api'
+import { textoSituacao } from '../utils/situacoes'
 
 export default function Historico() {
+  const [agendamentos, setAgendamentos] = useState<any[]>([])
+  const [clientes, setClientes] = useState<any[]>([])
+
+  useEffect(() => {
+    api.get('agendamento').then(setAgendamentos)
+    api.get('cliente').then(setClientes)
+  }, [])
+
+  function nomeCliente(id: string) {
+    return clientes.find(c => c.id === id)?.nome ?? '—'
+  }
+
+  const ordenados = [...agendamentos].sort((a, b) => new Date(b.dataHora).getTime() - new Date(a.dataHora).getTime())
+
   return (
     <div>
       <div className="pagina-topo">
@@ -16,20 +25,16 @@ export default function Historico() {
       <div className="tabela-container">
         <table className="tabela">
           <thead>
-            <tr>
-              <th>Cliente</th>
-              <th>Serviço</th>
-              <th>Data</th>
-              <th>Valor</th>
-            </tr>
+            <tr><th>Cliente</th><th>Data / Hora</th><th>Serviços</th><th>Observação</th><th>Situação</th></tr>
           </thead>
           <tbody>
-            {historico.map(h => (
+            {ordenados.map((h: any) => (
               <tr key={h.id}>
-                <td>{h.cliente}</td>
-                <td>{h.servico}</td>
-                <td>{h.data}</td>
-                <td className="negrito">{h.valor}</td>
+                <td className="negrito">{nomeCliente(h.clienteId)}</td>
+                <td>{new Date(h.dataHora).toLocaleString('pt-BR')}</td>
+                <td>{h.servicos?.map((s: any) => s.nome).join(', ') || '—'}</td>
+                <td>{h.observacao || '—'}</td>
+                <td>{textoSituacao[h.status]}</td>
               </tr>
             ))}
           </tbody>
