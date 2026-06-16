@@ -47,7 +47,7 @@ Sistema web para gerenciamento de agendamentos do Salão da Leila. Permite que c
 
 ## Arquitetura
 
-O backend segue a arquitetura **MVC simples**, sem camadas desnecessárias:
+O backend segue a arquitetura **MVC simples**:
 
 - `Domain/` — entidades do domínio (`Cliente`, `Agendamento`, `Servico`)
 - `Data/` — contexto do banco de dados com Entity Framework Core
