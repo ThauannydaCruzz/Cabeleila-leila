@@ -1,0 +1,23 @@
+create table "Clientes" (
+  "Id" uuid primary key,
+  "Nome" text not null,
+  "Email" text not null,
+  "Telefone" text not null,
+  "Senha" text not null default ''
+);
+
+create table "Agendamentos" (
+  "Id" uuid primary key,
+  "ClienteId" uuid not null references "Clientes"("Id"),
+  "DataHora" timestamp not null,
+  "Status" int not null,
+  "Observacao" text not null default ''
+);
+
+create table "Servicos" (
+  "Id" uuid primary key,
+  "Nome" text not null,
+  "Preco" decimal not null,
+  "DuracaoMinutos" int not null,
+  "AgendamentoId" uuid references "Agendamentos"("Id")
+);
