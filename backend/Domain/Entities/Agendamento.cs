@@ -1,4 +1,3 @@
-using Domain.Enums;
 using System;
 using System.Collections.Generic;
 
@@ -12,7 +11,7 @@ public class Agendamento
 
     public DateTime DataHora { get; set; }
 
-    public StatusAgendamento Status { get; set; }
+    public int Status { get; set; }
 
     public string Observacao { get; set; } = string.Empty;
 
