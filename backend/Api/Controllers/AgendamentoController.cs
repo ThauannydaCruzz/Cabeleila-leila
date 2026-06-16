@@ -36,11 +36,16 @@ public class AgendamentoController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Criar(Agendamento agendamento)
     {
+        if (agendamento.DataHora < DateTime.Now)
+            return BadRequest("A data não pode ser no passado.");
+
+        if (agendamento.Servicos == null || agendamento.Servicos.Count == 0)
+            return BadRequest("Selecione ao menos um serviço.");
+
         agendamento.Id = Guid.NewGuid();
         foreach (var s in agendamento.Servicos)
-        {
             s.Id = Guid.NewGuid();
-        }
+
         _context.Agendamentos.Add(agendamento);
         await _context.SaveChangesAsync();
         return Ok(agendamento);

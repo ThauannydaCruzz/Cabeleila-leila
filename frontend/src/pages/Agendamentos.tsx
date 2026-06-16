@@ -6,6 +6,15 @@ export default function Agendamentos() {
   const [agendamentos, setAgendamentos] = useState<any[]>([])
   const [clientes, setClientes] = useState<any[]>([])
   const [editando, setEditando] = useState<any>(null)
+  const [de, setDe] = useState('')
+  const [ate, setAte] = useState('')
+
+  const filtrados = agendamentos.filter(a => {
+    const data = new Date(a.dataHora)
+    if (de && data < new Date(de)) return false
+    if (ate && data > new Date(ate + 'T23:59:59')) return false
+    return true
+  })
 
   useEffect(() => {
     api.get('agendamento').then(setAgendamentos)
@@ -34,13 +43,25 @@ export default function Agendamentos() {
         <h1 className="pagina-titulo">Agendamentos</h1>
       </div>
 
+      <div style={{ display: 'flex', gap: 12, alignItems: 'flex-end', marginBottom: 16 }}>
+        <div className="grupo">
+          <label className="rotulo">De</label>
+          <input type="date" className="campo" value={de} onChange={e => setDe(e.target.value)} />
+        </div>
+        <div className="grupo">
+          <label className="rotulo">Até</label>
+          <input type="date" className="campo" value={ate} onChange={e => setAte(e.target.value)} />
+        </div>
+        {(de || ate) && <button className="botao-borda botao-pequeno" onClick={() => { setDe(''); setAte('') }}>Limpar</button>}
+      </div>
+
       <div className="tabela-container">
         <table className="tabela">
           <thead>
             <tr><th>Cliente</th><th>Data / Hora</th><th>Serviços</th><th>Situação</th><th></th></tr>
           </thead>
           <tbody>
-            {agendamentos.map((a: any) => (
+            {filtrados.map((a: any) => (
               <tr key={a.id}>
                 <td className="negrito">{nomeCliente(a.clienteId)}</td>
                 <td>{new Date(a.dataHora).toLocaleString('pt-BR')}</td>

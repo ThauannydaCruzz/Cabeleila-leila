@@ -21,6 +21,9 @@ export default function LayoutAdmin() {
           </div>
         </div>
         <nav>
+          <NavLink to="/dashboard" className={({ isActive }) => `item-menu${isActive ? ' ativo' : ''}`}>
+            <span>◈</span> Dashboard
+          </NavLink>
           <NavLink to="/agendamentos" className={({ isActive }) => `item-menu${isActive ? ' ativo' : ''}`}>
             <span>◫</span> Agendamentos
           </NavLink>

@@ -3,6 +3,7 @@ import LayoutAdmin from '../components/LayoutAdmin'
 import LayoutCliente from '../components/LayoutCliente'
 import Login from '../pages/Login'
 import Cadastro from '../pages/Cadastro'
+import Dashboard from '../pages/Dashboard'
 import Agendamentos from '../pages/Agendamentos'
 import Historico from '../pages/Historico'
 import MeusAgendamentos from '../pages/cliente/MeusAgendamentos'
@@ -16,6 +17,7 @@ export default function AppRoutes() {
       <Route path="/cadastro" element={<Cadastro />} />
 
       <Route path="/" element={<LayoutAdmin />}>
+        <Route path="dashboard" element={<Dashboard />} />
         <Route path="agendamentos" element={<Agendamentos />} />
         <Route path="historico" element={<Historico />} />
       </Route>

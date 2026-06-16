@@ -27,6 +27,15 @@ public class ServicoController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Cadastrar(Servico servico)
     {
+        if (string.IsNullOrWhiteSpace(servico.Nome))
+            return BadRequest("Nome é obrigatório.");
+
+        if (servico.Preco <= 0)
+            return BadRequest("Preço deve ser maior que zero.");
+
+        if (servico.DuracaoMinutos <= 0)
+            return BadRequest("Duração deve ser maior que zero.");
+
         servico.Id = Guid.NewGuid();
         _context.Servicos.Add(servico);
         await _context.SaveChangesAsync();
