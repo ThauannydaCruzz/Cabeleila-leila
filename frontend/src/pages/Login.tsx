@@ -4,6 +4,7 @@ import { api } from '../services/api'
 import { useAutenticacao } from '../context/AuthContext'
 
 const EMAIL_ADMIN = 'admin@salao.com'
+const SENHA_ADMIN = 'admin123'
 
 export default function Login() {
   const [email, setEmail] = useState('')
@@ -17,6 +18,10 @@ export default function Login() {
     setErro('')
 
     if (email === EMAIL_ADMIN) {
+      if (senha !== SENHA_ADMIN) {
+        setErro('Senha incorreta.')
+        return
+      }
       entrar({ nome: 'Leila', email, perfil: 'admin' })
       navegar('/agendamentos')
       return
@@ -24,6 +29,10 @@ export default function Login() {
 
     try {
       const cliente = await api.get(`cliente/email/${encodeURIComponent(email)}`)
+      if (cliente.senha !== senha) {
+        setErro('Senha incorreta.')
+        return
+      }
       entrar({ id: cliente.id, nome: cliente.nome, email, perfil: 'cliente' })
       navegar('/meus-agendamentos')
     } catch {

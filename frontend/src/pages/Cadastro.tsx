@@ -16,7 +16,7 @@ export default function Cadastro() {
     e.preventDefault()
     setErro('')
     try {
-      const cliente = await api.post('cliente', { nome, email, telefone })
+      const cliente = await api.post('cliente', { nome, email, telefone, senha })
       entrar({ id: cliente.id, nome: cliente.nome, email, perfil: 'cliente' })
       navegar('/meus-agendamentos')
     } catch {
